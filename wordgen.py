@@ -4,13 +4,13 @@ from tkFileDialog import asksaveasfilename
 import string
 
 root = Tk()
+root.wm_title('Word Generator by Danick Fort & Sébastien Vaucher')
 class Application(Frame):
 
     def onKeyRelease(self,e):
-        print e.__dict__
+        self.check_generate_validity()
         w = e.widget
         value = w.get()
-        print w.__dict__
 
         tov = int(w['to'])  
         fromv = int(w['from'])
@@ -51,7 +51,7 @@ class Application(Frame):
                     file_handler.write(''.join(w) + "\n")
                 
                 if self.output_to_console.get():
-                    print w
+                    print ''.join(w)
         if self.write_to_file.get():
             self.quit()
 
@@ -66,7 +66,7 @@ class Application(Frame):
         mini = self.min_sizeSpin.get()
         maxi = self.max_sizeSpin.get()
 
-        min_lt_max = mini < maxi
+        min_lt_max = mini <= maxi
         write_or_console = (self.write_to_file.get() or self.output_to_console.get())
         pool_not_empty = self.alphabet.get() or self.numbers.get() or self.special.get()
         
@@ -105,7 +105,7 @@ class Application(Frame):
         self.minLabel = Label(self,text='Min')
         self.maxLabel = Label(self,text='Max')
 
-        self.min_sizeSpin = Spinbox(self, from_=1, to=10, command=self.check_generate_validity)
+        self.min_sizeSpin = Spinbox(self, from_=2, to=10, command=self.check_generate_validity)
         self.max_sizeSpin = Spinbox(self, from_=2, to=10, command=self.check_generate_validity)
 
         self.min_sizeSpin.bind("<KeyRelease>", self.onKeyRelease)
